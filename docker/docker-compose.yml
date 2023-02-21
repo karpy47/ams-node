@@ -1,0 +1,84 @@
+#
+# Run "docker-compose up" or "docker-compose up --build" to rebuild 
+
+# Learnings
+# - Skip file mount for db, use named volumes instead
+# - Use file mount for code in dev env, use volumes in prod env
+#
+
+version: "3.8"
+
+services:
+
+  ams-server:
+    container_name: ams-server
+    restart: on-failure
+    build:
+      context: .. # working directory set to one level up
+      dockerfile: ./docker/dockerfile-server
+    depends_on:
+      - ams-db
+      - ams-db-test
+    ports:
+      - "3001:3000"
+    # These env variables override Docker env_file definitions. Unknown regarding override of .env definitions
+    environment:
+      NODE_ENV: development
+      DATABASE_URL_DEV: postgres://pgroot:pgpwd@ams-db:5432/ams
+      DATABASE_URL_TEST: postgres://pgroot:pgpwd@ams-db-test:5432/ams
+      # DATABASE_URL_PROD: 
+    command: npm run dev
+    volumes:
+      - ../server:/app
+
+  ams-client:
+    container_name: ams-client
+    restart: on-failure
+    build:
+      context: .. # working directory set to one level up
+      dockerfile: ./docker/dockerfile-client
+    depends_on:
+      - ams-server
+    ports:
+      - "3002:3000"
+    # These env variables override Docker env_file definitions. Unknown regarding override of .env definitions
+    environment:
+      REACT_APP_ENV: development
+      REACT_APP_APIBASEURL: http://localhost:3001/client/v1
+    command: npm start
+    volumes:
+      - ../client:/app
+
+  ams-db:
+    container_name: ams-db
+    restart: on-failure
+    image: postgres:15.1
+    ports:
+      - "5433:5432" # Using port 5433 outside container to avoid conflict with locally installed Postgres
+    environment:
+      POSTGRES_DB: ams
+      POSTGRES_USER: pgroot
+      POSTGRES_PASSWORD: pgpwd
+    volumes:
+      - ams-db-vol:/var/lib/postgresql/data
+
+  ams-db-test:
+    container_name: ams-db-test
+    restart: on-failure
+    image: postgres:15.1
+    ports:
+      - "5434:5432" # Using port 5434 outside container to avoid conflict with locally installed Postgres
+    environment:
+      POSTGRES_DB: ams
+      POSTGRES_USER: pgroot
+      POSTGRES_PASSWORD: pgpwd
+    volumes:
+      - ams-db-test-vol:/var/lib/postgresql/data
+
+volumes:
+  ams-db-vol:
+    name: ams-db-vol
+  ams-db-test-vol:
+    name: ams-db-test-vol
+
+# networks:
