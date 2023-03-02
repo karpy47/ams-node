@@ -8,7 +8,7 @@ const columns = [
     label: 'ID',
   },
   { 
-    key: 'status', type: 'select', options: statusOptions,
+    key: 'status', type: 'select', options: statusOptions, default: statusOptions.active,
     label: 'Status', help: 'Current user status. Lock for temporary paus.', 
   },
   { 
@@ -19,7 +19,7 @@ const columns = [
   { 
     key: 'email', type: 'text', 
     label: 'E-mail', help: 'Used to reset password.',
-    val: Yup.string().email('Invalid email'),
+    val: Yup.string().email('Invalid email').required('Required'), 
   },
   { 
     key: 'phone', type: 'text', 
@@ -27,7 +27,7 @@ const columns = [
     val: Yup.string().min(8, 'Too short').max(100, 'Too long'),
   },
   { 
-    key: 'role', type: 'select', options: roleOptions,
+    key: 'role', type: 'select', options: roleOptions, default: roleOptions.user,
     label: 'Role', help: 'Affects level of access. Only admins may create users.', 
   },
   { 
@@ -35,7 +35,7 @@ const columns = [
     label: 'Last login at',
   },
   { 
-    key: 'autoLogoutAfter', type: 'number', 
+    key: 'autoLogoutAfter', type: 'number', default: 600,
     label: 'Auto logout after', help:'Automatic logout timer measured in seconds.',
     val: Yup.number().min(60, 'Minimum 60').max(3600, 'Maximum 3600')
   },

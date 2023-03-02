@@ -1,14 +1,15 @@
-const { sequelize } = require('sequelize')
 const commander = require('commander')
 const chalk = require('chalk')
 const user = new commander.Command('user')
 const createSuper = new commander.Command('create')
 const changePassword = new commander.Command('change-pwd')
 const showSuper = new commander.Command('show')
+const test = new commander.Command('test')
 
 const { User, UserGroup, AuditLog } = require('../db/models')
 const roles = require('../config').roles
 const config = require('../config')
+const { mailer } = require('../services/mailer')
 
 createSuper
   .description('Setup a default super admin and usergroup')
@@ -87,6 +88,20 @@ showSuper
     }
   })
 
+test
+  .description('Code testing...')
+  .action(async (options) => {
+    try {
+      // const users = await User.findAll({ limit: 10 })
+      // console.log(users)
+      const user = await User.findByPk(1)
+      console.log('Sending email\n')
+      await mailer.sendResetPassword(user)
+    } catch (err) {
+      console.log(chalk.bgRed('Fatal error') + `\n${err}\n`)
+    }
+  })
+
 user
   .description('Commands for user admin')
   .helpOption(false)
@@ -97,5 +112,6 @@ user
   .addCommand(showSuper)
   .addCommand(createSuper)
   .addCommand(changePassword)
+  .addCommand(test)
 
 module.exports = user

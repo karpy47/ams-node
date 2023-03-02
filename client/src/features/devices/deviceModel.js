@@ -14,6 +14,7 @@ const columns = [
   { 
     key: 'modelRefNo', type: 'text', 
     label: 'Model ref.no', help: 'Device model number printed on its label',
+    val: Yup.string().required('Required'), 
   },
   { 
     key: 'manufacturedAt', type: 'text', 
@@ -30,30 +31,6 @@ const columns = [
   { 
     key: 'signatureInspection', type: 'text', 
     label: 'Sign inspection', help: 'Signature of person responsible for inspection after manufacturing',
-  },
-  { 
-    key: 'dmCodeA', type: 'text',
-    label: 'PCA Code A', help: 'Data matrix code of PCA inside the device',
-  },
-  { 
-    key: 'dmCodeB', type: 'text',
-    label: 'Batt Code B', help: 'Data matrix code of Main Battery inside the device',
-  },
-  { 
-    key: 'dmCodeC', type: 'text',
-    label: 'Coil Code C', help: 'Data matrix code of Coil Assembly inside the device',
-  },
-  { 
-    key: 'dmCodeD', type: 'text',
-    label: 'Pump Code D', help: 'Data matrix code of Pump Motor Assembly inside the device',
-  },
-  { 
-    key: 'dmCodeE', type: 'text',
-    label: 'Enclosure Code E', help: 'Data matrix code of Enclosure inside the device',
-  },
-  { 
-    key: 'dmCodeF', type: 'text',
-    label: 'Solenoid Code F', help: 'Data matrix code of Solenoid Assembly inside the device',
   },
   { 
     key: 'comment', type: 'text', 
@@ -83,4 +60,4 @@ const tableOptions = {
   initialSorting: [ {id: 'serialNo', desc: false} ],
 }
 
-export const userModel = new DataModel({ columns, tableOptions })
+export const deviceModel = new DataModel({ columns, tableOptions })

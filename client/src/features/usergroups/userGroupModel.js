@@ -32,4 +32,4 @@ const tableOptions = {
   initialSorting: [ {id: 'name', desc: false} ],
 }
 
-export const userGroupsModel = new DataModel({ columns, tableOptions })
+export const userGroupModel = new DataModel({ columns, tableOptions })

@@ -6,6 +6,11 @@ const config = {
     env: process.env.NODE_ENV || 'development',
     port: process.env.PORT || '3000'
   },
+  baseClientUrl: {
+    development: 'http://localhost:3000',
+    test: 'http://localhost:3000',
+    production: 'https://system.abilion.com'
+  },
   db: {
     development: {
       url: process.env.DATABASE_URL_DEV,
@@ -92,5 +97,7 @@ const config = {
 config.isDevEnv = (config.app.env === 'development')
 config.isTestEnv = (config.app.env === 'test')
 config.isProdEnv = (config.app.env === 'production')
+
+config.baseClientUrl = config.baseClientUrl[config.app.env]
 
 module.exports = config

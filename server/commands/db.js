@@ -132,7 +132,7 @@ init
   .option('-u, --user', 'Email for inital user', 'kj@abilion.com')
   .option('-p, --pwd', 'Password for inital user', 'kjkj')
   .action(async (options) => {
-    if (config.isDevEnv || config.isProdEnv) {
+    if (config.isDevEnv || config.isTestEnv) {
       await initDb(options.user, options.pwd)
       console.log(chalk.bgGreen('\nSuccess') + ' Database setup with initial data (default group and user).')
     } else {

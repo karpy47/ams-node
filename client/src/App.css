@@ -9,7 +9,12 @@ html {
 }
 
 h1 {
-  font-size: 1.2em;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1.1rem;
   font-weight: bold;
 }
 
@@ -55,10 +60,6 @@ h1 {
 .action-icon:hover {
   color: gray;
   font-size: 1.0em;
-}
-
-.login {
-  max-width: 300px;
 }
 
 input.error {

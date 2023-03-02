@@ -1,20 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useGetUsersQuery } from '../../services/apiClient'
 import { BasicTable } from '../../components/table/BasicTable'
-import { UserEditModal } from './UserEditModal'
 import { userModel } from './userModel'
 import { AlertError } from '../../components/form/AlertError'
 import { PageTitle } from '../../components/layout/PageTitle'
 import { AddButton, SpinnerLoading } from '../../components/misc/icons'
+import { useNavigate } from 'react-router-dom'
 
-export function UsersPage () {
+export function UsersIndex() {
   
   const { isLoading, isError, error, data } = useGetUsersQuery()
-  const [ userId, setUserId ] = useState(null)
-  const [ show, setShow ] = useState(false)
-  
-  const openHandler = (id) => { setShow(true); setUserId(id) }
-  const closeHandler = () => setShow(false)
+  const navigate = useNavigate()
+
+  const openHandler = (id) => { navigate('/user/'+id)  }
 
   if (isLoading) return <SpinnerLoading />
   if (isError) return <AlertError error={error} />
@@ -22,10 +20,9 @@ export function UsersPage () {
   return (
     <>
       <PageTitle h1="Users">
-        <AddButton text="New user" href="/user/add" />
+        <AddButton text="Add user" href="/user/add" />
       </ PageTitle>
       <BasicTable model={userModel} data={data} clickHandler={openHandler}/>
-      { show ? <UserEditModal model={userModel} userId={userId} closeHandler={closeHandler} /> : null }
     </>
   )
 

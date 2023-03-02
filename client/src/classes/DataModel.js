@@ -44,12 +44,28 @@ export class DataModel {
     return this.tableOptions.pagination ?? false
   }
 
+  /**
+   * Get validation object (Yup) for full model
+   * @returns {Array}
+   */
   getValidation() {
     var result = {}
     this.columns.forEach(item => {
       if (item.val) result[item.key] = item.val
     });
     return Yup.object().shape(result)
+  }
+
+  /**
+   * Get default values for model
+   * @returns {Object}
+   */
+  getDefaultValues() {
+    var result = {}
+    this.columns.forEach(item => {
+      if (!item.disabled) result[item.key] = item.default ?? null
+    });
+    return result
   }
 
 }

@@ -1,7 +1,8 @@
 import React, { useState }  from 'react';
-import { useNavigate, Link } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { useAuthLoginMutation } from '../../services/apiClient';
-import { Form, Button, Spinner, Toast } from 'react-bootstrap';
+import { Form, Button, Toast } from 'react-bootstrap';
+import { SpinnerSaving } from '../../components/misc/icons';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 
@@ -17,7 +18,6 @@ const formValidation = Yup.object().shape({
 export const LoginForm = () => {
 
   const [ login, result ] = useAuthLoginMutation()
-  const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
 
   const formik = useFormik({
@@ -29,7 +29,6 @@ export const LoginForm = () => {
     },
   })
  
-  if (result.isSuccess) { navigate("/") }
   const errorMessage = (error) => <>({error.status}: {error.message})</>
 
   function hasError(key) {
@@ -38,6 +37,16 @@ export const LoginForm = () => {
 
   function showError(key) {
     return hasError(key) ? (<p className="error"><small>{formik.errors[key]}</small></p>) : null
+  }
+
+  // return to page called before login, otherwise to /home
+  const location = useLocation()
+  if (result.isSuccess) { 
+    if (location.state?.from) {
+      return <Navigate to={location.state.from} />
+     } else {
+      return <Navigate to="/home" />
+     } 
   }
 
   return (
@@ -68,7 +77,7 @@ export const LoginForm = () => {
       </Form.Group>
       <div className="text-end">  
         <Button variant="primary" type="submit">
-          { result.isLoading ? <Spinner animation="border" size="sm"/> : "Login" }
+          { result.isLoading ? <SpinnerSaving /> : "Login" }
         </Button> 
         <Link className="float-start" to="/">Forgot password?</Link> 
       </div> 

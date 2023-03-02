@@ -1,7 +1,8 @@
+const config = require('../config')
 const { User, EventLog } = require('../db/models')
 const { InternalError, NotAuthorizedError } = require('../helpers/httpErrors')
 const { getValidationError } = require('../helpers/validation')
-const config = require('../config')
+const { mailer } = require('../services/mailer')
 
 async function login (req, res, next) {
   try {
@@ -89,7 +90,7 @@ async function resetPasswordRequest (req, res, next) {
     if (user) {
       user.generateResetPasswordToken()
       await user.save()
-      // TODO: send mail to user with reset token
+      await mailer.sendResetPassword(user)
       EventLog.log(config.eventTypes.resetPwdRequest, { userId: user.id })
     } else {
       EventLog.logFail(config.eventTypes.resetPwdRequestFail, req)

@@ -69,7 +69,8 @@ router.get('/:deviceId', deviceController.read)
  *         description: Internal error
  */
 router.post('/', [
-  body('modelRefNo').exists().withMessage('required')
+  body('modelRefNo').exists().withMessage('required'),
+  body('serialNo').exists().withMessage('required')
 ], deviceController.create)
 /**
  * @openapi
@@ -95,6 +96,7 @@ router.post('/', [
  *         description: Internal error (update failed)
  */
 router.put('/:deviceId', [
+  body('modelRefNo').exists().withMessage('required'),
   body('serialNo').exists().withMessage('required')
 ], deviceController.update)
 
@@ -193,7 +195,7 @@ module.exports = router
  *         application/json:
  *           schema:
  *             type: object
- *             required: [serialNo]
+ *             required: [serialNo, modelRefNo]
  *             properties:
  *               serialNo:
  *                 type: string

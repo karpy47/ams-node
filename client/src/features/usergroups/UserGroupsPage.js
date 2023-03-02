@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { useGetUserGroupsQuery } from '../../services/apiClient'
-import { Button, Spinner } from 'react-bootstrap'
-import { BasicTable } from '../../components/BasicTable'
-import { ModalEditUserGroup } from './ModalEditUserGroup'
-import { userGroupsModel } from './userGroupsModel'
-import { MdAdd } from 'react-icons/md';
-import { AlertError } from '../../components/AlertError'
-import { PageTitle } from '../../components/PageTitle'
+import { BasicTable } from '../../components/table/BasicTable'
+import { UserGroupEditModal } from './UserGroupEditModal'
+import { userGroupModel } from './userGroupModel'
+import { AlertError } from '../../components/form/AlertError'
+import { PageTitle } from '../../components/layout/PageTitle'
+import { AddButton, SpinnerLoading } from '../../components/misc/icons'
 
 export function UsersGroupPage () {
 
@@ -17,16 +16,16 @@ export function UsersGroupPage () {
   const openHandler = (id) => { setShow(true); setUserGroupId(id) }
   const closeHandler = () => setShow(false)
 
-  if (isLoading) return <Spinner animation="border" />
+  if (isLoading) return <SpinnerLoading />
   if (isError) return <AlertError error={error} />
   
   return (
     <>
       <PageTitle h1="Usergroups">
-        <Button variant="primary" size="sm">< MdAdd /> New usergroup</Button>
+        <AddButton text="New usergroup" />
       </PageTitle>
-      <BasicTable model={userGroupsModel} data={data} clickHandler={openHandler}/>
-      { show ? <ModalEditUserGroup model={userGroupsModel} userGroupId={userGroupId} closeHandler={closeHandler} /> : null }
+      <BasicTable model={userGroupModel} data={data} clickHandler={openHandler}/>
+      { show ? <UserGroupEditModal model={userGroupModel} userGroupId={userGroupId} closeHandler={closeHandler} /> : null }
     </>
   )
 

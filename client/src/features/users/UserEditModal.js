@@ -1,28 +1,24 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { Formik } from 'formik'
-import { TextInput2, SelectInput2 } from '../../components/FormFields'
+import { TextInput2, SelectInput2 } from '../../components/form/FormFields'
 import { useGetUserQuery, useUpdateUserMutation } from '../../services/apiClient'
-import { Alert, Spinner } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
+import { CheckIcon, ModalLoading, SpinnerSaving, SaveButton } from '../../components/misc/icons'
 
-export function ModalEditUser ({ model, userId, closeHandler }) {
+export function UserEditModal ({ model, userId, closeHandler }) {
 
   const null2Empty = (obj) => JSON.parse(JSON.stringify(obj, (k, v) => (v === null ? '' : v)))
   const empty2Null = (obj) => JSON.parse(JSON.stringify(obj, (k, v) => (v === '' ? null : v)))
 
   const { data, isLoading } = useGetUserQuery(userId)
-  const [ updatePost, result ] = useUpdateUserMutation()
+  const [ updatePost, update ] = useUpdateUserMutation()
 
-  if (result.isSuccess) closeHandler()  
-  if (isLoading) return (
-    <Modal>
-      <Modal.Body>
-        <Alert variant="danger">Loading</Alert>
-      </Modal.Body>
-    </Modal>
-  )
+  useEffect(() => { if (update.isSuccess) closeHandler() })
+  if (isLoading) return <ModalLoading />
+  
   return (
     <Modal centered size="lg" animation={false} show={true} onHide={closeHandler}>
       <Formik
@@ -46,13 +42,13 @@ export function ModalEditUser ({ model, userId, closeHandler }) {
             <TextInput2 item={model.getColumn('lastLoginAt')} />
             <TextInput2 item={model.getColumn('createdAt')} />
             <TextInput2 item={model.getColumn('updatedAt')} />
-            { result.isError ? <Alert variant="danger">Error saving. ({result.error})</Alert> : null }
+            { update.isError ? <Alert variant="danger">Error saving. ({update.error})</Alert> : null }
           </Modal.Body>
           <Modal.Footer>
-            { result.isLoading ? <Spinner animation="border" variant="primary" /> : null }
-            { result.isSuccess ? <Alert variant="success">Saved</Alert> : null }
-            <Button variant={props.isValid?"primary":"danger"} disabled={!props.isValid} type="submit">Save</Button>
+            { update.isLoading ? <SpinnerSaving /> : null }
+            { update.isSuccess ? <CheckIcon /> : null }
             <Button variant="secondary" onClick={closeHandler}>Cancel</Button>
+            <SaveButton isValid={props.isValid} />
           </Modal.Footer>
         </Form>
       )}
@@ -60,7 +56,7 @@ export function ModalEditUser ({ model, userId, closeHandler }) {
     </Modal>
   )
 }
-ModalEditUser.propTypes = {
+UserEditModal.propTypes = {
   model: PropTypes.object.isRequired,
   userId: PropTypes.number.isRequired,
   closeHandler: PropTypes.func.isRequired

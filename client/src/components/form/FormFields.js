@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormControl, FormGroup, FormLabel, FormText, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Form, FormControl, FormGroup, FormLabel, FormText, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { Field, ErrorMessage } from 'formik'
 import { MdInfoOutline } from 'react-icons/md'; 
 
@@ -92,18 +92,20 @@ export const TextInput2 = ({item, col=4}) => (
   <>
    <Field name={item.key}>
       { ({field}) => (
-        <FormGroup as={Row} controlId={"id_"+item.key}>
-          <FormLabel column sm={col} className="text-xs-start text-sm-end">{item.label} <Info item={item}/></FormLabel>
+        <Form.Group as={Row} controlId={"id_"+item.key}>
+          <Form.Label column sm={col} className="text-xs-start text-sm-end">
+            {item.label} <Info item={item}/>
+          </Form.Label>
           <Col sm={12-col}>
-            <FormText className="text-danger"><ErrorMessage name={item.key} /></FormText>
-            <FormControl 
+            <Form.Text className="text-danger"><ErrorMessage name={item.key} /></Form.Text>
+            <Form.Control 
               type={item.type}
               readOnly={item.readOnly ?? false} 
               disabled={item.disabled ?? false} 
               {...field}
             />
           </Col>
-        </FormGroup>
+        </Form.Group>
       )}
     </Field>
   </>
@@ -118,21 +120,23 @@ export const SelectInput2 = ({item, col=4}) => {
   const options = optionsMap.map(([k, v]) => <option key={k} value={k}>{v}</option>)
   return (
     <>
-    <Field name={item.key}>
+      <Field name={item.key}>
         { ({field}) => (
-          <FormGroup as={Row} controlId={"id_"+item.key} >
-            <FormLabel column sm={col} className="text-xs-start text-sm-end">{item.label} { item.help ? <Info item={item}/> : null }</FormLabel>
+          <Form.Group as={Row} controlId={"id_"+item.key} >
+            <Form.Label column sm={col} className="text-xs-start text-sm-end">
+              {item.label} { item.help ? <Info item={item}/> : null }
+            </Form.Label>
             <Col sm={12-col}>
-              <FormText className="text-danger"><ErrorMessage name={item.key} /></FormText>
-              <FormControl as="select" 
+              <Form.Text className="text-danger"><ErrorMessage name={item.key} /></Form.Text>
+              <Form.Select
                 readOnly={item.readOnly ?? false} 
                 disabled={item.disabled ?? false} 
                 {...field}
               >
                 {options}
-              </FormControl>
+              </Form.Select>
             </Col>
-          </FormGroup>
+          </Form.Group>
         )}
       </Field>
     </>

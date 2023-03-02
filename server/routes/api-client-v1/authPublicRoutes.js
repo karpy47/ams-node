@@ -78,7 +78,7 @@ router.post('/logout', [], clientAuthController.logout)
  *         application/json:
  *           schema:
  *             type: object
-  *            required: [userId, refreshToken]
+ *             required: [userId, refreshToken]
  *             properties:
  *               userId:
  *                 type: integer
@@ -86,8 +86,7 @@ router.post('/logout', [], clientAuthController.logout)
  *               refreshToken:
  *                 type: string
  *                 description: Previously received refreshtoken.
- *               example:
- *                 refreshToken: a8K5AWnwTb%UOkgzfhK1.1627719612
+ *                 example: a8K5AWnwTb%UOkgzfhK1.1627719612
  *     responses:
  *       200:
  *         description: Tokens refreshed

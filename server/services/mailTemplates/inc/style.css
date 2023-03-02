@@ -1,0 +1,27 @@
+/* style.css */
+h1 {
+  font-size: 1.1rem
+}
+
+p {
+  font-size: 1.0rem;
+}
+
+.wrapper {
+  width: 640px;
+  background-color: #eee;
+  border: 0;
+  font-size: 16px;
+}
+
+.container {
+  width: 600px;
+  background-color: #fff;
+  border: 2px;
+  padding: 10px;
+}
+
+.footer {
+  font-size: 0.5rem;
+  font-weight: bold;
+}

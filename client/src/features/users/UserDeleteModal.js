@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Modal, Button, Table } from 'react-bootstrap'
 
-function ModalDeleteUser ({ state, handlers }) {
+function UserDeleteModal ({ state, handlers }) {
   return (!state.show) ? null : (
     <Modal centered size="lg" animation={false} show={state.show} onHide={handlers.close}> 
       <Modal.Header closeButton>
@@ -24,9 +24,9 @@ function ModalDeleteUser ({ state, handlers }) {
     </Modal>
   )
 }
-ModalDeleteUser.propTypes = {
+UserDeleteModal.propTypes = {
   state: PropTypes.object.isRequired,
   handlers: PropTypes.object.isRequired,
 }
 
-export default ModalDeleteUser
+export default UserDeleteModal

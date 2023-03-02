@@ -2,11 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux'
 import './App.css';
 import { Container } from 'react-bootstrap';
-import { Navigation } from './components/Navigation'
-import { Router } from './components/Router';
-import { Footer } from'./components/Footer';
-import { LoginPage } from './features/auth/LoginPage';
-import { IdleCheck } from './components/IdleCheck';
+import { Navigation } from './features/core/Navigation'
+import { Router } from './features/core/Router';
+import { Footer } from'./components/layout/Footer';
+import { IdleCheck } from './features/core/IdleCheck';
 
 export function App() {
 
@@ -21,15 +20,10 @@ export function App() {
 
   return (
     <>
-      <Navigation user={authUser} />
+      <Navigation authUser={authUser} />
       <Container fluid className="p-2 main">
-        { authUser ? 
-          <>
-            <Router /> 
-            <IdleCheck timer={authUser.autoLogoutAfter}/>
-          </> 
-          : <LoginPage /> 
-        }                
+        <Router />   
+        { authUser ? <IdleCheck timer={authUser.autoLogoutAfter}/> : null }
       </Container>
       <Footer />
     </>

@@ -144,9 +144,9 @@ Run `./cli` to see the command help menu
 | `./cli user show` | Show a list of all SuperUsers and SuperAdmins. |
 | `./cli user change-pwd -e mail@example.com -p password` | Set a new password for a user with given email. |
 | `./cli user create -e mail@example.com -p password` | Create a new superadmin in a default usergroup called "SuperGroup". |
-| `./cli seed` | Populates #n usergroups with users, patients, etc. Not available in prod env.|
 | `./cli db reset` | Reset database by migrating down and then migrating up. All data is lost! Not available in prod env. |
-| `./cli db setup` | Setups a default superadmin user in a default usergroup for first access. Password only shown once in shell. |
+| `./cli db init` | Setups a default superadmin user in a default usergroup for first access. Password only shown once in shell. Not available in prod env. |
+| `./cli db seed` | Populates #n usergroups with users, patients, etc. Not available in prod env.|
 | `./cli db migrate up` | Migrates up any pending migrations. |
 | `./cli db migrate down` | Migrates down one step. |
 

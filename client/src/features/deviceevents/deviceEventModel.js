@@ -42,11 +42,15 @@ const columns = [
   },
   { 
     key: 'deviceId', type: 'text',
-    label: 'Device serial no', 
+    label: 'Device ID', 
   },
   { 
     key: 'Device.serialNo', type: 'text', disabled: true,
     label: 'Device serial no', 
+  },
+  { 
+    key: 'componentId', type: 'text',
+    label: 'Component ID', 
   },
   { 
     key: 'Component.dmCode', type: 'text', disabled: true,
@@ -60,4 +64,4 @@ const tableOptions = {
   initialSorting: [ {id: 'eventAt', desc: false} ],
 }
 
-export const userModel = new DataModel({ columns, tableOptions })
+export const deviceEventModel = new DataModel({ columns, tableOptions })
